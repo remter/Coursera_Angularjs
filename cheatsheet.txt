@@ -1,0 +1,5 @@
+start browser sync:  browser-sync start --server --directory --files "**/*"
+set up meta in the header:  <meta charset="utf-8"> 
+always start HTML documents with <!DOCTYPE html>
+Validator for HTML:   https://validator.w3.org/#validate_by_input
+HTML language setting: <html lang="en">

@@ -1,4 +1,3 @@
-const { errorHandlingConfig } = require("angular");
 
 (function(){
     'use strict';    
@@ -8,24 +7,26 @@ const { errorHandlingConfig } = require("angular");
     .controller('AlreadyBoughtController',AlreadyBoughtController)
     .provider('ShoppingListCheckOffService',ShoppingListCheckOffServiceProvider);
 
+    // var items_buy = [];
+    // var items_bou = [];
+
     ToBuyController.$inject = ['ShoppingListCheckOffService'];
     function ToBuyController(ShoppingListCheckOffService){
         var list_buy = this;
-
-        list_buy.items = ShoppingListCheckOffService.getItems_buy;
-
+        var items_buy_temp = [];
+        items_buy_temp = ShoppingListCheckOffService.getItems_buy;
+        console.log(items_buy_temp[0]);
     }
     AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
     function AlreadyBoughtController(ShoppingListCheckOffService){
         var list_bou = this;
-
         list_bou.items = ShoppingListCheckOffService.getItems_bou;
         
     }
 
     function ShoppingListCheckOffService (){
         var service = this;
-
+        
         var items_buy = [];
         var items_bou = [];
         service.addItem_buy = function (itemName, quantity) {

@@ -1,2 +1,29 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="ShoppingListCheckOff"
+<html lang="en" ng-app="ShoppingListCheckOff">
+    <head>
+        <title>
+            Checklist
+        </title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="styles/bootstrap.min.css">
+    </head>
+    <script src="angular.min.js"></script>
+    <script src="app.js"></script>
+    <body>
+        <h1>Shopping Checklist</h1>
+        <div ng-controller='ToBuyController as list_buy'>
+            <ol>
+                <li ng-repeat="item in list_buy.items">
+                    {{item.quantity}} of {{item.name}}
+                </li>
+            </ol>
+        </div>
+        <div ng-controller='AlreadyBoughtController as list_bou'>
+            <ol>
+                <li ng-repeat="item in list_bou.items">
+                    {{item.quantity}} of {{item.name}}
+                </li>
+            </ol>
+        </div>
+    </body>
+</html>

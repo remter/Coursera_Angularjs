@@ -1,0 +1,23 @@
+.emptyMessage {
+    font-weight: bold;
+    color: red;
+    font-size: 1.2em;
+  }
+  li {
+    margin-bottom: 7px;
+    font-size: 1.2em;
+  }
+  li > button {
+    margin-left: 6px;
+  }
+.titles{
+    font-size: 2em;
+}
+.buyed{
+    font-size: 1.5em;
+    color:green;
+}
+.bout{
+    font-size: 1.5em;
+    color:red;
+}

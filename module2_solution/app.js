@@ -5,7 +5,7 @@
     angular.module('ShoppingListCheckOff',[])
     .controller('ToBuyController', ToBuyController)
     .controller('AlreadyBoughtController',AlreadyBoughtController)
-    .provider('ShoppingListCheckOffService',ShoppingListCheckOffServiceProvider);
+    .service('ShoppingListCheckOffService',ShoppingListCheckOffService);
 
     // var items_buy = [];
     // var items_bou = [];
@@ -13,15 +13,23 @@
     ToBuyController.$inject = ['ShoppingListCheckOffService'];
     function ToBuyController(ShoppingListCheckOffService){
         var list_buy = this;
-        var items_buy_temp = [];
-        items_buy_temp = ShoppingListCheckOffService.getItems_buy;
-        console.log(items_buy_temp[0]);
+
+        list_buy.items = ShoppingListCheckOffService.getItems_buy();
+        list_buy.buy_item = function (itemIndex){
+            ShoppingListCheckOffService.buy_item(itemIndex);
+        }
+        list_buy.items_in = function (){
+           return (list_buy.items.length > 0 ? false : true);
+        }
+        
     }
     AlreadyBoughtController.$inject = ['ShoppingListCheckOffService'];
     function AlreadyBoughtController(ShoppingListCheckOffService){
         var list_bou = this;
-        list_bou.items = ShoppingListCheckOffService.getItems_bou;
-        
+        list_bou.items = ShoppingListCheckOffService.getItems_bou();
+        list_bou.items_in = function (){
+            return (list_bou.items.length > 0 ? false : true);
+         }
     }
 
     function ShoppingListCheckOffService (){
@@ -29,6 +37,7 @@
         
         var items_buy = [];
         var items_bou = [];
+        
         service.addItem_buy = function (itemName, quantity) {
             var item = {
               name: itemName,
@@ -66,21 +75,25 @@
             items_buy.splice(itemIndex, 1);
             items_bou.push(item_temp);
         };
-
+        service.addItem_buy("water", 50);
+        service.addItem_buy("pizza", 2);
+        service.addItem_buy("soda", 5);
+        service.addItem_buy("spoons", 2);
+        service.addItem_buy("fork", 3);
 
     }
 
-    function ShoppingListCheckOffServiceProvider(){
-        var provider = this;
-        provider.$get = function (){
-            var shoppinglist = new ShoppingListCheckOffService();
-            shoppinglist.addItem_buy("water", 50);
-            shoppinglist.addItem_buy("pizza", 2);
-            shoppinglist.addItem_buy("soda", 5);
-            shoppinglist.addItem_buy("spoons", 2);
-            shoppinglist.addItem_buy("fork", 3);
+    // function ShoppingListCheckOffServiceProvider(){
+    //     var provider = this;
+    //     provider.$get = function (){
+    //         var shoppinglist = new ShoppingListCheckOffService();
+    //         shoppinglist.addItem_buy("water", 50);
+    //         shoppinglist.addItem_buy("pizza", 2);
+    //         shoppinglist.addItem_buy("soda", 5);
+    //         shoppinglist.addItem_buy("spoons", 2);
+    //         shoppinglist.addItem_buy("fork", 3);
             
-            return shoppinglist;
-        };
-    }
+    //         return shoppinglist;
+    //     };
+    //}
 })();

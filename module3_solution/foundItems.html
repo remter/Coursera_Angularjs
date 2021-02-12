@@ -1,0 +1,13 @@
+<div>
+<div ng-if = "show" >
+  <ul>
+  <li ng-repeat="item in items">
+    {{item.name}}, {{item.short_name}}, {{item.description}}
+    <button ng-click="onRemove({index: $index});">Don't want this one!</button>
+  </li>
+</ul>
+</div>
+
+<div class="error" ng-if="list.check_search()">Nothing found</div>
+<div class="error" ng-if="!show">Nothing found</div>
+</div>

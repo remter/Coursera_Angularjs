@@ -4,27 +4,65 @@
     
     angular.module('NarrowItDownApp',[])
     .controller('NarrowItDownController',NarrowItDownController)
-    .service('MenuSearchService',MenuSearchService);
+    .service('MenuSearchService',MenuSearchService)
+    .directive('foundItems', foundItemsDirective);
+
+    function foundItemsDirective() {
+        var doo = {
+            templateUrl: "foundItems.html",
+            Restrict: 'E',
+            scope: {
+                items: '<',
+                onRemove: '&',
+                show: '<'
+            }
+        };
+
+
+        return doo;
+    }
+
+
+
     NarrowItDownController.$inject = ['MenuSearchService'];
     function NarrowItDownController(MenuSearchService){
         var list = this;
         list.searchTerm ="";
+        list.found = [];
+        list.display = true;
         // console.log(list.searchTerm);
-        // list_items = [];
-        list.found = function()
-            {
-                var list_items = [];
-                // console.log(list.searchTerm);
-                var list_item = MenuSearchService.getMatchedMenuItems(list.searchTerm);
-                list_item.then((test)=>{
-                    //console.log(test);
-                    list_items = test;
-                    //console.log("blah ",list_items[0].id);
-                    // console.log(list_items);
-                    return list_items;
-                })
-                
+        list.check_search = function(){
+            return ( list.searchTerm == "" ? true : false);
+        }
+        
+        list.list_items = function(){  
+            if(list.check_search()){
+                list.found = [];
+                list.display = false;
             }
+            else{
+            var list_temp = MenuSearchService.getMatchedMenuItems(list.searchTerm);
+            list_temp.then(function (response){
+                list.found = response;
+                if(list.found.length == 0){
+                    list.display = false;
+                }
+                else{
+                list.display = true;
+                }
+            })
+            }
+        }
+        list.remove = function(index){
+            list.found.splice(index,1);
+        }
+        // var list_temp = [];
+        // list.found = function(){
+        //     console.log(list.searchTerm);
+           
+        //     console.log(list_items);
+        //     return list_items;
+        // }
 
 
     }
@@ -34,7 +72,8 @@
         menu.getMatchedMenuItems = function (searchTerm){
             return $http({
                 method: "GET",
-                url:("https://davids-restaurant.herokuapp.com/menu_items.json")}
+                url:("https://davids-restaurant.herokuapp.com/menu_items.json")
+            }
             ).then((result)=>{
                 var foundItems = [];
                 //console.log(result);
